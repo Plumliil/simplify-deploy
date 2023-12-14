@@ -1,0 +1,19 @@
+{
+  "name": "simplify-deploy",
+  "version": "1.0.0",
+  "description": "Make deployment easy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "node index.js"
+  },
+  "author": "plumliil",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "glob": "^10.3.10",
+    "inquirer": "^8.0.0",
+    "node-ssh": "^13.1.0"
+  }
+}
