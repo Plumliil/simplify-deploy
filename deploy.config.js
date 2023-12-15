@@ -1,4 +1,3 @@
-// config.js
 module.exports = {
   option: {
     host: "0.0.0.0",
@@ -7,15 +6,17 @@ module.exports = {
     password: "root",
     dev: {
       remoteDir: "/home/nginx/html",
-      localDir: "./dist/dev",
+      localDir: "C:/Users/22584/Desktop/Linmon/dist/dev/dist",
     },
     uat: {
+      bakDir: "/home/nginx/bak",
       remoteDir: "/home/nginx/html",
-      localDir: "./dist/uat",
+      localDir: "C:/Users/22584/Desktop/Linmon/dist/uat/dist",
     },
     prod: {
+      bakDir: "/home/nginx/bak",
       remoteDir: "/home/nginx/html",
-      localDir: "./dist/prod",
+      localDir: "C:/Users/22584/Desktop/Linmon/dist/prod/dist",
     },
   },
 };

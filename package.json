@@ -1,11 +1,11 @@
 {
   "name": "simplify-deploy",
   "version": "1.0.0",
-  "description": "Make deployment easy",
+  "description": "Make Deployment Easy",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node index.js"
+    "deploy": "node index.js publish"
   },
   "author": "plumliil",
   "license": "ISC",

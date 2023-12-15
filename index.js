@@ -3,33 +3,10 @@ const process = require("process");
 const { program } = require("commander");
 const glob = require("glob");
 const inquirer = require("inquirer");
-const dirArr = glob.sync(`${process.cwd()}/config.js`); // 加载工作目录的配置文件
+const dirArr = glob.sync(`${process.cwd()}/deploy.config.js`); // 加载工作目录的配置文件
 const package = require("./package.json");
-
-const { NodeSSH } = require("node-ssh");
-const ssh = new NodeSSH();
-
-const log = (msg, type) => {
-  switch (type) {
-    case 'common':
-      console.log('\x1B[36m%s\x1B[0m', msg)
-      break;
-    case 'success':
-      console.log('\x1B[32m%s\x1B[0m', msg)
-      break;
-    case 'CBG':
-      console.log('\x1B[44m%s\x1B[0m', msg)
-      break;
-    case 'error':
-      console.log('\x1B[31m%s\x1B[0m', msg)
-      // console.log('\x1B[41m%s\x1B[0m', msg)
-      break;
-    default:
-      console.log('\x1B[32m%s\x1B[0m', msg)
-      break;
-  }
-
-}
+const log = require('./utils/log')
+const connectServe = require('./utils/ssh')
 
 // 获取配置文件
 const getConf = (types = [], config = []) => {
@@ -47,7 +24,6 @@ const getConf = (types = [], config = []) => {
 
 function checkRequiredProperties(obj) {
   const requiredProperties = ['host', 'port', 'username', 'password'];
-
   for (const property of requiredProperties) {
     if (!(property in obj)) {
       log(`错误：属性 '${property}' 不存在于配置对象中。`, 'error');
@@ -58,7 +34,6 @@ function checkRequiredProperties(obj) {
   // 检查嵌套的 dev、uat、prod 对象
   for (const key of ['dev', 'uat', 'prod']) {
     const nestedObject = obj[key];
-
     if (nestedObject && typeof nestedObject === 'object') {
       // 检查嵌套对象是否包含 requiredNestedProperties
       const requiredNestedProperties = ['remoteDir', 'localDir'];
@@ -114,31 +89,7 @@ program
         },
       ]);
       const envConfig = config[devType];
-      ssh.connect({
-        host: config.host,
-        port: config.port || 22,
-        username: config.username,
-        password: config.password,
-        tryKeyboard: true
-      }).then(() => {
-        log('连接服务器成功', 'success')
-        log('开始上传文件', 'success')
-        ssh
-          .putDirectory(envConfig.localDir, envConfig.remoteDir, {
-            // 文件上传回调
-            tick: (localPath, remotePath, error) => {
-              if (error) {
-                log('⚠️ ', error, "error");
-              } else {
-                log(`🚀 传输：${localPath} - >${remotePath}`, "common");
-              }
-            },
-          })
-          .then(() => {
-            log(`✨ 上传成功 项目已部署至 ${devType} 环境`, "common");
-            process.exit(0);
-          });
-      })
+      connectServe(config, envConfig, devType)
     })()
   })
 // 注册 -h
