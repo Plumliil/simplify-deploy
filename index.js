@@ -3,9 +3,10 @@ const { program } = require("commander");
 const inquirer = require("inquirer");
 const process = require("process");
 const connectServe = require('./utils/ssh')
-const { getConf, confCheck } = require('./utils/getConf')
-const env = ['sit', 'uat', 'prod']
+const { getConf, optionsCheck, getTargetEnvName } = require('./utils/configHandle')
 const { types, config } = getConf();
+const env = getTargetEnvName(config);
+
 
 for (const key in env) {
   const targetENV = env[key];
@@ -20,7 +21,7 @@ program
   .command("publish")
   .description("发布项目")
   .action(() => {
-    if (!confCheck(config)) return;
+    if (!optionsCheck(config)) return;
     (async () => {
       const { devType } = await inquirer.prompt([
         {
