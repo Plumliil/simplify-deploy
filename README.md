@@ -11,17 +11,17 @@ module.exports = {
     port: "22",
     username: "root",
     password: "root",
-    dev: {
+    sit: {
       remoteDir: "/home/nginx/html",
       localDir: "C:/Users/simplify/Desktop/app/dist/dev/dist",
     },
     uat: {
-      bakDir: "/home/nginx/bak",
+      bakDir: "/bakup/nginx/bak",
       remoteDir: "/home/nginx/html",
       localDir: "C:/Users/simplify/Desktop/app/dist/uat/dist",
     },
     prod: {
-      bakDir: "/home/nginx/bak",
+      bakDir: "/bakup/nginx/bak",
       remoteDir: "/home/nginx/html",
       localDir: "C:/Users/simplify/Desktop/app/dist/prod/dist",
     },
@@ -34,7 +34,8 @@ module.exports = {
 如果尚未安装，请安装 Node.js 和 npm。
 + 克隆存储库：git clone git@github.com:Plumliil/simplify-deploy.git
 + 安装依赖项：npm install
-+ 运行部署脚本：npm run deploy
++ 查看可执行命令: npm run deploy --help
++ 运行部署脚本: 根据提示命令行参数来运行部署脚本。
 确保根据您的特定部署要求调整 deploy-config.js 中的配置。
 
 ## 配置
@@ -44,6 +45,6 @@ module.exports = {
 - username：用于身份验证的 SSH 用户名。
 - password：用于身份验证的 SSH 密码。
 ### 环境配置
-- bakDir：远程服务器上的备份目录。
+- bakDir：远程服务器上的备份目录。(非必填,如服务器不存在该目录则自动创建) 
 - remoteDir：将要部署文件的远程目录。
 - localDir：包含要部署文件的本地目录。

@@ -13,4 +13,4 @@ function getCurrentTime() {
   return `${year}${month}${day}_${hours}${minutes}${seconds}`;
 }
 
-module.exports = { getCurrentTime }
+module.exports = getCurrentTime

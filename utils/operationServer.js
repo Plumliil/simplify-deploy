@@ -1,37 +1,36 @@
-const { NodeSSH } = require("node-ssh");
-const { getCurrentTime } = require('./timeHandle');
-const log = require('./log')
-
-// if [ -d ${envConfig.remoteDir} ];
-// then mv ${envConfig.remoteDir} ${envConfig.bakDir}/${devType}/${devType}_${getCurrentTime()}
-// fi
+const getCurrentTime = require('./timeHandle');
+const { notice, stress } = require("./log");
 
 const command = (envConfig, devType) => {
-  // 构建备份目录和文件名
-  const backupDir = `${envConfig.bakDir}/${devType}`;
+  // 生成备份文件名
   const backupFileName = `${devType}_${getCurrentTime()}`;
+  // 备份目录
+  const backupDir = envConfig.bakDir;
+  // 源目录
+  const sourceDir = envConfig.remoteDir;
+  // 返回备份命令
   return `
-  if [ -d "${envConfig.remoteDir}" ]; then
-      # 创建备份目录
-      mkdir -p "${backupDir}"
-  
-      # 移动文件到备份目录
-      mv "${envConfig.remoteDir}" "${backupDir}/${backupFileName}"
-  
-      # 压缩备份文件
-      tar -czf "${backupDir}/${backupFileName}.tar.gz" -C "${backupDir}" "${backupFileName}"
-  
-      # 验证压缩成功后删除原始文件
-      if [ $? -eq 0 ]; then
-          rm -rf "${backupDir}/${backupFileName}"
-          echo "Backup completed and original files removed successfully."
-      else
-          echo "Error: Compression failed. Original files were not removed."
-      fi
-  fi
-  `
+    if [ -d "${sourceDir}" ]; then
+        [ -d "${backupDir}" ] || mkdir -p "${backupDir}"
+          [ -d "${backupDir}/${devType}/${backupFileName}" ] || mkdir -p "${backupDir}/${devType}/${backupFileName}"
+        cp -r "${sourceDir}" "${backupDir}/${devType}/${backupFileName}"
+        tar -czf "${backupDir}/${devType}/${backupFileName}.tar.gz" -C "${backupDir}/${devType}" "${backupFileName}"
+        rm -r "${backupDir}/${devType}/${backupFileName}"
+    else
+        echo "源目录不存在: ${sourceDir}"
+    fi
+    `;
 }
 
+/**
+ * 运行命令
+ * 
+ * @param {object} ssh - SSH连接对象
+ * @param {string} command - 待执行的命令
+ * @param {string} path - 执行命令的路径
+ * @param {string} bakDir - 备份文件保存的目录
+ * @returns {Promise} - Promise对象，成功时返回备份完成的提示信息，失败时返回错误信息
+ */
 function runCommand(ssh, command, path, bakDir) {
   return new Promise((resolve, reject) => {
     ssh.execCommand(command, {
@@ -41,31 +40,33 @@ function runCommand(ssh, command, path, bakDir) {
         reject(console.error('命令执行发生错误:' + res.stderr))
         process.exit()
       } else {
-        resolve(console.log('✨ 备份完成 备份至 ' + bakDir))
+        resolve(console.log(notice('✨ 备份完成 备份至 ' + bakDir)))
       }
     })
   })
 }
-
-// 处理源文件(ssh对象、配置信息)
+/**
+ * 异步函数，用于文件备份
+ * @param {*} ssh ssh对象
+ * @param {*} envConfig 环境配置信息
+ * @param {*} devType 环境
+ */
 async function handleSourceFile(ssh, envConfig, devType) {
+  // 如果开启了远端备份
   if (envConfig.bakDir) {
-    log('已开启远端备份!', 'GBG')
+    // 打印日志提示已开启远端备份
+    console.log(stress('已开启远端备份!'));
+    // 执行命令将文件备份到远端
     await runCommand(
       ssh,
-      // `
-      // if [ -d ${envConfig.remoteDir} ];
-      // then mv ${envConfig.remoteDir} ${envConfig.bakDir}/${devType}/${devType}_${getCurrentTime()}
-      // fi
-      // `,
       command(envConfig, devType),
       envConfig.remoteDir,
       envConfig.bakDir,
     )
   } else {
-    log('提醒：未开启远端备份!', 'PBG')
+    // 打印日志提醒未开启远端备份
+    console.log(stress('提醒：本次部署未开启远端备份!'));
   }
 }
-
 
 module.exports = { handleSourceFile }
