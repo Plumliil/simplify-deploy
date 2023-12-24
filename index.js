@@ -1,4 +1,4 @@
-// index.js
+#!/usr/bin/env node
 const { program } = require("commander");
 const inquirer = require("inquirer");
 const process = require("process");
