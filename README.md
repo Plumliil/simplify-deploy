@@ -12,18 +12,19 @@ module.exports = {
     username: "root",
     password: "root",
     sit: {
-      remoteDir: "/home/nginx/html",
-      localDir: "C:/Users/simplify/Desktop/app/dist/dev/dist",
+      bakDir: "Backup file directory",
+      remoteDir: "Remote server directory",
+      localDir: "Local packaged directory",
     },
     uat: {
-      bakDir: "/bakup/nginx/bak",
-      remoteDir: "/home/nginx/html",
-      localDir: "C:/Users/simplify/Desktop/app/dist/uat/dist",
+      bakDir: "Backup file directory",
+      remoteDir: "Remote server directory",
+      localDir: "Local packaged directory",
     },
     prod: {
-      bakDir: "/bakup/nginx/bak",
-      remoteDir: "/home/nginx/html",
-      localDir: "C:/Users/simplify/Desktop/app/dist/prod/dist",
+      bakDir: "Backup file directory",
+      remoteDir: "Remote server directory",
+      localDir: "Local packaged directory",
     },
   },
 };

@@ -5,18 +5,19 @@ module.exports = {
     username: "root",
     password: "root",
     sit: {
-      remoteDir: "/home/nginx/html",
-      localDir: "C:/Users/22584/Desktop/Linmon/dist/dev/dist",
+      bakDir: "Backup file directory",
+      remoteDir: "Remote server directory",
+      localDir: "Local packaged directory",
     },
     uat: {
-      bakDir: "/bakup/nginx",
-      remoteDir: "/home/nginx/html",
-      localDir: "C:/Users/22584/Desktop/Linmon/dist/uat/dist",
+      bakDir: "Backup file directory",
+      remoteDir: "Remote server directory",
+      localDir: "Local packaged directory",
     },
     prod: {
-      bakDir: "/bakup/nginx",
-      remoteDir: "/home/nginx/html",
-      localDir: "C:/Users/22584/Desktop/Linmon/dist/prod/dist",
+      bakDir: "Backup file directory",
+      remoteDir: "Remote server directory",
+      localDir: "Local packaged directory",
     },
   },
 };
