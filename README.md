@@ -47,14 +47,12 @@ yarn add -D simplify-deploy
 并且在package.json中添加命令:
 ```json
   "scripts": {
-    ...,
     "deploy": "simplifyd publish"
   },
 ```
 如果想要在打包后就执行部署命令可进行一下配置:
 ```json
   "scripts": {
-    ...,
     "deploy": "npm run build && simplifyd publish"
   },
 ```
