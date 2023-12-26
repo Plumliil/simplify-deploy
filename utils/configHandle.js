@@ -1,7 +1,7 @@
 const process = require("process");
 const glob = require("glob");
 const rootPath = process.cwd();
-const dirArr = glob.sync(`${rootPath}/.deploy.config.js`); // 加载工作目录的配置文件
+const dirArr = glob.sync(`${rootPath}/.deploy.config.cjs`); // 加载工作目录的配置文件
 const { error } = require("./log");
 
 /**
@@ -11,7 +11,7 @@ const { error } = require("./log");
  */
 function optionsCheck(config) {
   if (!dirArr.length) {
-    console.log(error(`${process.cwd()} 中没有 .deploy.config.js`));
+    console.log(error(`${process.cwd()} 中没有 .deploy.config.cjs`));
     return;
   }
   const targetEnv = Object.keys(config)?.filter(item => {
@@ -45,7 +45,7 @@ function optionsCheck(config) {
  * @returns 
  */
 function getConf(types = [], config = []) {
-  if (!dirArr.length) return console.log(error(`${process.cwd()} 中没有 .deploy.config.js`));
+  if (!dirArr.length) return console.log(error(`${process.cwd()} 中没有 .deploy.config.cjs`));
   const src = dirArr[0];
   const { option } = require(`${rootPath}/` + src);
   // 如果option存在

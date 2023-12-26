@@ -1,6 +1,6 @@
 {
   "name": "simplify-deploy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Make Deployment Easy",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,10 @@
   "bin": {
     "simplifyd": "./index.js"
   },
+  "keywords": [
+    "tool",
+    "deploy"
+  ],
   "author": "plumliil",
   "license": "ISC",
   "dependencies": {

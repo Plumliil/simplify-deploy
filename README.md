@@ -2,7 +2,7 @@
 simplify-deploy 部署工具是一个模块，旨在通过 SSH 简化到不同环境的部署过程。它利用 Node.js 和提供的配置来将文件部署到远程服务器。
 
 ## 配置
-部署工具通过 module.exports 对象在 .deploy.config.js 文件中进行配置。以下是一个示例配置：
+部署工具通过 module.exports 对象在 .deploy.config.cjs 文件中进行配置。以下是一个示例配置：
 
 ```javascript
 module.exports = {
@@ -48,9 +48,9 @@ npm i simplify-deploy -D
 yarn add -D simplify-deploy
 ```
 ### 配置
-在项目的根目录下创建.deploy.config.js文件
+在项目的根目录下创建.deploy.config.cjs文件
 
-确保根据您的特定部署要求调整 deploy-config.js 中的配置。
+确保根据您的特定部署要求调整 .deploy.config.cjs 中的配置。
 
 并且在package.json中添加命令:
 ```json
@@ -92,3 +92,4 @@ yarn deploy
 - v1.0.1: 上传服务器后进行文件备份
 - v1.0.2: 实现一个项目部署多个服务器多个环境
 - v1.0.3: 版本同步依赖修改 无功能修改
+- v1.0.4: module模式下require引入问题修复
