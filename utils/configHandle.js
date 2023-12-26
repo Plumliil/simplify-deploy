@@ -14,14 +14,6 @@ function optionsCheck(config) {
     console.log(error(`${process.cwd()} 中没有 .deploy.config.js`));
     return;
   }
-  // 检查配置对象是否包含必需的属性
-  const requiredProperties = ['host', 'port', 'username', 'password'];
-  for (const property of requiredProperties) {
-    if (!(property in config)) {
-      console.log(error(`错误：属性 '${property}'不存在于配置对象中。`));
-      return false;
-    }
-  }
   const targetEnv = Object.keys(config)?.filter(item => {
     return typeof config[item] === 'object'
   })
@@ -30,7 +22,7 @@ function optionsCheck(config) {
     const nestedObject = config[key];
     if (nestedObject && typeof nestedObject === 'object') {
       // 检查嵌套对象是否包含必需的嵌套属性
-      const requiredNestedProperties = ['remoteDir', 'localDir'];
+      const requiredNestedProperties = ['host', 'port', 'username', 'password', 'remoteDir', 'localDir'];
       for (const nestedProperty of requiredNestedProperties) {
         if (!(nestedProperty in nestedObject)) {
           console.log(`错误：环境属性 '${nestedProperty}' 不存在于 ${key} 配置对象中。`)
@@ -74,10 +66,9 @@ function getConf(types = [], config = []) {
  * @returns {string[]} - 目标环境名称数组
  */
 function getTargetEnvName(config) {
-  const exclud = ['host', 'port', 'username', 'password']
   return Object.keys(config).filter(key => {
     // 判断属性是否为对象，且不包含在排除列表中
-    return typeof config[key] === 'object' && !exclud.includes(key)
+    return typeof config[key] === 'object'
   })
 }
 module.exports = { getConf, optionsCheck, getTargetEnvName };

@@ -8,18 +8,17 @@ const { notice, pending } = require("./log");
 /**
  * 连接服务器并上传文件
  * 
- * @param {Object} sshInfo - SSH连接信息对象
  * @param {Object} envInfo - 环境信息对象
  * @param {string} devType - 项目环境类型
  * @returns {Promise} - 返回一个Promise对象，表示连接服务器并上传文件的操作
  */
-function connectServe(sshInfo, envInfo, devType) {
+function connectServe( envInfo, devType) {
   return new Promise((resolve, reject) => {
     ssh.connect({
-      host: sshInfo.host,
-      port: sshInfo.port || 22,
-      username: sshInfo.username,
-      password: sshInfo.password,
+      host: envInfo.host,
+      port: envInfo.port || 22,
+      username: envInfo.username,
+      password: envInfo.password,
       tryKeyboard: true
     }).then(() => {
       console.log(notice('连接服务器成功!'));

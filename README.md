@@ -7,21 +7,29 @@ simplify-deploy 部署工具是一个模块，旨在通过 SSH 简化到不同�
 ```javascript
 module.exports = {
   option: {
-    host: "0.0.0.0",
-    port: "22",
-    username: "root",
-    password: "root",
     sit: {
+      host: "0.0.0.0",
+      port: "22",
+      username: "root",
+      password: "root",
       bakDir: "Backup file directory",
       remoteDir: "Remote server directory",
       localDir: "Local packaged directory",
     },
     uat: {
+      host: "0.0.0.0",
+      port: "22",
+      username: "root",
+      password: "root",
       bakDir: "Backup file directory",
       remoteDir: "Remote server directory",
       localDir: "Local packaged directory",
     },
     prod: {
+      host: "0.0.0.0",
+      port: "22",
+      username: "root",
+      password: "root",
       bakDir: "Backup file directory",
       remoteDir: "Remote server directory",
       localDir: "Local packaged directory",
@@ -75,3 +83,11 @@ yarn deploy
 - bakDir：远程服务器上的备份目录。(非必填,如服务器不存在该目录则自动创建) 
 - remoteDir：将要部署文件的远程目录。
 - localDir：包含要部署文件的本地目录。
+
+## 版本记录
+### TODO
+- 
+### 已更新
+- v1.0.0: 基本功能
+- v1.0.1: 上传服务器后进行文件备份
+- v1.0.2: 实现一个项目部署多个服务器多个环境
